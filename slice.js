@@ -1,12 +1,17 @@
 var signs = require('./nycpk.json');
 
 
-for (properties in signs)
-
-	console.log(properties)
 
 
-	
+ditchData = function (element) {
+	console.log(element)
+  return element ;
+}
+
+
+
+var newArray = signs.map(ditchData);
+
 
 
 module.exports = signs;
