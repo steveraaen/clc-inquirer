@@ -1,5 +1,5 @@
 var signs = require('./Parking_Regulation_Shapefile/pksigns.json');
-
+var fs = require("fs");
 var sweep = "SANITATION BROOM SYMBOL";
 
 
@@ -16,10 +16,19 @@ for(let i =  signs.features.length - 1;i > -1; i--) {
  delete signs.features[i].properties.x;
  delete signs.features[i].properties.y;
 
- console.log(signs.features[i].properties)
+/* console.log(signs.features[i].properties, signs.features[i].geometry)*/
+
+
 	
 }
-console.log(signs)
+/* var signStr = JSON.stringify(signs)
+ fs.writeFile("./park.json", signStr, function(err){
+ 	    if(err) {
+        return console.log(err);
+    }
 
+    console.log("The file was saved!");
 
+ })
+*/
 module.exports = signs;
