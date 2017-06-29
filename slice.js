@@ -1,10 +1,4 @@
 var signs = require('./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp');
-var fs = require("fs");
-var sweep = "SANITATION BROOM SYMBOL";
-
-var trimSigns = [];
-
-
 
 for(let i =  signs.features.length - 1;i > -1; i--) {
 
