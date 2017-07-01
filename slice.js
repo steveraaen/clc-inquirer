@@ -1,19 +1,9 @@
-var signs = require('./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp');
 
-for(let i =  signs.features.length - 1;i > -1; i--) {
+//shp to ndjson
+shp2json -n ./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp | ndjson-map '{"type": "Feature", "properties": {"SG_KEY_BOR": d.properties.SG_KEY_BOR, "SIGNDESC1": d.properties.SIGNDESC1}, "geometry": {"type": "Point", "coordinates": d.geometry.coordinates}}' > reduced.json
 
- delete signs.features[i].properties.OBJECTID;
- delete signs.features[i].properties.SG_SEQNO_N;
- delete signs.features[i].properties.SG_MUTCD_C;
- delete signs.features[i].properties.SG_SIGN_FC;
- delete signs.features[i].properties.SG_ORDER_N;
- delete signs.features[i].properties.SR_DIST;
- delete signs.features[i].properties.SG_ARROW_D;
- delete signs.features[i].properties.x;
- delete signs.features[i].properties.y;
-
-}
-
-console.log(signs)
-
-
+// ndjson to geojson
+ndjson-reduce \
+  < sweepsigns.ndjson \
+  | ndjson-map '{type: "FeatureCollection", features: d}' \
+  > sweepsigns.json
