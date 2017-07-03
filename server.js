@@ -26,20 +26,32 @@ db.on("error", function(error) {
 db.once("open", function() {
     console.log("Mongoose connection successful.");
 
-    app.get("/api", function(req, res) {
-        console.log(bkbrooms.features[0].geometry);
-        for (let i = 0; i < bkbrooms.features.length; i++) {
-            var bkpksign = new Sign({ properties: bkbrooms.features[i].properties, geometry: bkbrooms.features[i].geometry });
+    app.get("/signs", function(req, res) {
+        Sign.find().distinct("properties.SIGNDESC1", function(error, doc) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+            	console.log(doc)
+                res.send(doc);
+            }
+        });
+    });
 
-            bkpksign.save(function(err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('meow');
-                }
-            });
-        }
-    })
+    /*    app.get("/api", function(req, res) {
+            console.log(bkbrooms.features[0].geometry);
+            for (let i = 0; i < bkbrooms.features.length; i++) {
+                var bkpksign = new Sign({ properties: bkbrooms.features[i].properties, geometry: bkbrooms.features[i].geometry });
+
+                bkpksign.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('meow');
+                    }
+                });
+            }
+        })*/
 
 });
 
