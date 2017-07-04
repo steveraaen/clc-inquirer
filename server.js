@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+
 var pwds = require("./app/passwds");
 var Sign = require("./models/Signs.js");
 var bkbrooms = require("./data/bkbrooms.json");
@@ -15,7 +16,6 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("./public"));
 
 
-
 mongoose.connect(pwds.mong);
 var db = mongoose.connection;
 
@@ -25,6 +25,10 @@ db.on("error", function(error) {
 
 db.once("open", function() {
     console.log("Mongoose connection successful.");
+
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/view/reactapp/public/index.html");
+});
 
 /*    app.get("/signs", function(req, res) {
         Sign.find().distinct("features.properties.T", function(error, doc) {

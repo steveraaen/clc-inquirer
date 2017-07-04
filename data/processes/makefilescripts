@@ -10,9 +10,12 @@ shp2json -n ./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp | nd
 # ndjson to geojson
 # ndjson-reduce < bkbrooms.ndjson | ndjson-map '{type: "FeatureCollection", features: d}' > geoSweepsigns.json
 
-shp2json -n ./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp \
- | ndjson-filter 'd.properties.SG_KEY_BOR === "K"' \
- | ndjson-map '{"type": "Feature", "properties": {"SG_KEY_BOR": d.properties.SG_KEY_BOR, "SIGNDESC1": d.properties.SIGNDESC1}, "geometry": {"type": "Point", "coordinates": d.geometry.coordinates}}' | > bksigns.ndjson
+shp2json -n < ./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp \
+ | ndjson-map '{"type": "Feature", "properties": {"SG_KEY_BOR": d.properties.SG_KEY_BOR, "SIGNDESC1": d.properties.SIGNDESC1}, "geometry": {"type": "Point", "coordinates": d.geometry.coordinates}}' \
+ | ndjson-filter 'd.properties.SIGNDESC1 != null, true'   > bksigns.ndjson
+
+
+
 
  ndjson-reduce < bksigns.ndjson ndjson-filter  'd.properties.SIGNDESC1.match(/BROOM/g)' > bkbrsigns.json
 
