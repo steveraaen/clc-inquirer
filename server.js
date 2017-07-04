@@ -1,9 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var pwds = require("./passwds");
+var pwds = require("./app/passwds");
 var Sign = require("./models/Signs.js");
-var bkbrooms = require("./bkbrooms.json");
+var bkbrooms = require("./data/bkbrooms.json");
 
 var app = express();
 var PORT = 3001;
@@ -26,8 +26,8 @@ db.on("error", function(error) {
 db.once("open", function() {
     console.log("Mongoose connection successful.");
 
-    app.get("/signs", function(req, res) {
-        Sign.find().distinct("properties.SIGNDESC1", function(error, doc) {
+/*    app.get("/signs", function(req, res) {
+        Sign.find().distinct("features.properties.T", function(error, doc) {
             if (error) {
                 console.log(error);
             }
@@ -36,7 +36,7 @@ db.once("open", function() {
                 res.send(doc);
             }
         });
-    });
+    });*/
 
     /*    app.get("/api", function(req, res) {
             console.log(bkbrooms.features[0].geometry);
