@@ -13,4 +13,7 @@
 .App-intro {
   font-size: large;
 }
-
+.leaflet-container {
+    height: 960px;
+    width: 100%;
+}
