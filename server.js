@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 
 var pwds = require("./app/passwds");
 var Sign = require("./models/Signs.js");
+var Code = require("./models/Codes.js");
 var bkbrooms = require("./data/bkbrooms.json");
 
 var app = express();
@@ -26,36 +27,58 @@ db.on("error", function(error) {
 db.once("open", function() {
     console.log("Mongoose connection successful.");
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/view/reactapp/public/index.html");
-});
+    app.get("/", function(req, res) {
+        res.sendFile(__dirname + "/view/reactapp/public/index.html");
+    });
+    app.get('/bor', function(req, res) {
+        Sign.find({'B': 'Q'}).
+        populate('T').
+        exec(function(err, sign){
+            if(err) return handleError(err);
+            console.log(sign)
+           res.json(sign)           
+        })
+    })
+
+
+
 
 /*    app.get("/signs", function(req, res) {
         Sign.find().distinct("features.properties.T", function(error, doc) {
             if (error) {
                 console.log(error);
-            }
-            else {
-            	console.log(doc)
+            } else {
+                console.log(doc)
                 res.send(doc);
             }
         });
-    });*/
+    });
 
-    /*    app.get("/api", function(req, res) {
-            console.log(bkbrooms.features[0].geometry);
-            for (let i = 0; i < bkbrooms.features.length; i++) {
-                var bkpksign = new Sign({ properties: bkbrooms.features[i].properties, geometry: bkbrooms.features[i].geometry });
-
-                bkpksign.save(function(err) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('meow');
-                    }
-                });
+    app.get("/codes", function(req, res) {
+        Code.count("MUT", function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.send(doc);
             }
-        })*/
+        });
+    });
+
+    app.get("/api", function(req, res) {
+        console.log(bkbrooms.features[0].geometry);
+        for (let i = 0; i < bkbrooms.features.length; i++) {
+            var bkpksign = new Sign({ properties: bkbrooms.features[i].properties, geometry: bkbrooms.features[i].geometry });
+
+            bkpksign.save(function(err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('meow');
+                }
+            });
+        }
+    })*/
 
 });
 
