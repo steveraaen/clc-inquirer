@@ -5,8 +5,7 @@ var Schema = mongoose.Schema;
 
 var CodeSchema = new Schema({
 	T: String,
-	MUT: String,
-	SIGNS:[{type: Schema.Types.String, ref: Sign}]
+	MUT: String
 });
 
 var Code = mongoose.model("Code", CodeSchema);

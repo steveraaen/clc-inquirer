@@ -1,11 +1,13 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var GeoJSON = require('mongoose-geojson-schema');
 
 var pwds = require("./app/passwds");
 var Sign = require("./models/Signs.js");
+var GeoSign = require("./models/GeoSigns.js");
 var Code = require("./models/Codes.js");
-var bkbrooms = require("./data/bkbrooms.json");
+var sd = require("../../../../parking/signData.json");
 
 var app = express();
 var PORT = 3001;
@@ -16,8 +18,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("./public"));
 
-
-mongoose.connect(pwds.mong);
+mongoose.connect(pwds.monggeo);
 var db = mongoose.connection;
 
 db.on("error", function(error) {
@@ -30,57 +31,18 @@ db.once("open", function() {
     app.get("/", function(req, res) {
         res.sendFile(__dirname + "/view/reactapp/public/index.html");
     });
+
     app.get('/bor', function(req, res) {
-        Sign.find({'B': 'Q'}).
-        populate('T').
-        exec(function(err, sign){
-            if(err) return handleError(err);
-            console.log(sign)
-           res.json(sign)           
+
+        GeoSign.find({}, 'ID MUT geometry nearField', function(err, doc) {
+            if (err) throw err;
+            console.log(doc);
+            res.send(doc)
         })
-    })
 
-
-
-
-/*    app.get("/signs", function(req, res) {
-        Sign.find().distinct("features.properties.T", function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(doc)
-                res.send(doc);
-            }
-        });
     });
 
-    app.get("/codes", function(req, res) {
-        Code.count("MUT", function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(doc)
-                res.send(doc);
-            }
-        });
-    });
-
-    app.get("/api", function(req, res) {
-        console.log(bkbrooms.features[0].geometry);
-        for (let i = 0; i < bkbrooms.features.length; i++) {
-            var bkpksign = new Sign({ properties: bkbrooms.features[i].properties, geometry: bkbrooms.features[i].geometry });
-
-            bkpksign.save(function(err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('meow');
-                }
-            });
-        }
-    })*/
-
-});
+})
 
 app.listen(PORT, function(err) {
     if (err) throw err

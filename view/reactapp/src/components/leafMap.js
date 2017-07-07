@@ -15,24 +15,23 @@ export default class LeafMap extends Component {
   }
 }
 
-
 componentDidMount() {
 // ---------------------------------------------
-
+this.state = {
+   nearField: {
+     $near: {
+       $geometry: {
+          type: "Point" ,
+          coordinates: [ this.state.lng , this.state.lat ]
+       },
+       $maxDistance: 500,
+       $minDistance: 50
+     }
+   }
+}
+console.log(this.state.nearField)
 var makers = this.props.dat;
 var  mgj = new GeoJSON(makers);
-
-
-// --------------------------------------------
-/*  function getStyle(feature, layer) {
-    return {
-      color: '#006400',
-      weight: 5,
-      opacity: 0.65
-    }
-  }*/
-// -----------------------------------------------
-
 }
 
   render() {
