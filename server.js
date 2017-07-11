@@ -7,10 +7,11 @@ var pwds = require("./app/passwds");
 var Sign = require("./models/Signs.js");
 var GeoSign = require("./models/GeoSigns.js");
 var Code = require("./models/Codes.js");
-var sd = require("../../../../parking/signData.json");
+var Hood = require("./models/hoods.js");
+var erasmus = require("./erasmus.json");
 
 var app = express();
-var PORT = 3001;
+var PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,26 +25,63 @@ var db = mongoose.connection;
 db.on("error", function(error) {
     console.log("Mongoose Error: ", error);
 });
-
 db.once("open", function() {
     console.log("Mongoose connection successful.");
 
     app.get("/", function(req, res) {
-        res.sendFile(__dirname + "/view/reactapp/public/index.html");
+        res.sendFile(__dirname + "/view/public/index.html");
     });
-
-    app.get('/bor', function(req, res) {
-
-        GeoSign.find({}, 'ID MUT geometry nearField', function(err, doc) {
-            if (err) throw err;
-            console.log(doc);
-            res.send(doc)
-        })
-
+    app.get("/ksigns", function(req, res) {
+        GeoSign.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(50);
     });
-
+    app.get("/hoods/:name", function(req, res) {
+        Hood.find({name: "Erasmus"}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(10);
+    });
+    app.get("/codes", function(req, res) {
+        Code.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(50);
+    });
 })
-
+app.get('/geoNear', function(req, res) {
+    GeoSign.find({
+        "point": {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [-73.9481, 40.6365]
+                },
+                $maxDistance: 500
+            }
+        }
+    }), function(error, doc) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(doc)
+            res.json(doc);
+        }
+    }
+})
 app.listen(PORT, function(err) {
     if (err) throw err
     console.log('connected on  ' + PORT)

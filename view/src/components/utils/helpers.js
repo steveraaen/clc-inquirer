@@ -1,3 +1,4 @@
+import axios from 'axios'
 import bkbrooms from "../../bkbrooms.json"
 
 /*function SignSlice() {
@@ -18,8 +19,11 @@ var helpers = {
 		}
 
 		return twoHundred
+
+},
+  getGeoData() {
+    axios.get('/bor')
+   }
+
 	}
-}
-
-
 export default helpers;

@@ -2,10 +2,8 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var GeoSignSchema = new Schema({},
+var ksignSchema = new Schema({});
 
-{ collection: 'qsigns'});
+var ksign = mongoose.model("ksign", ksignSchema);
 
-var GeoSign = mongoose.model("GeoSign", GeoSignSchema);
-
-module.exports = GeoSign;
+module.exports = ksign;

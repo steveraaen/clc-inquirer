@@ -35,7 +35,7 @@ mongoimport -h ds143362.mlab.com:43362 -d signs -c ssigns -u ***** -p ***** --fi
 mongoimport -h ds143362.mlab.com:43362 -d signs -c xsigns -u ***** -p ***** --file signDataX.ndjson 
 mongoimport -h ds143362.mlab.com:43362 -d signs -c msigns -u ***** -p ***** --file signDataM.ndjson 
 
-mongoimport -h ds143362.mlab.com:43362 -d signs -c allsigns -u steve -p felisa --file justBrooms.ndjson 
+mongoimport -h ds143362.mlab.com:43362 -d signs -c hoods -u -u ***** -p ***** --file neighborhoods.json 
 
 
 
