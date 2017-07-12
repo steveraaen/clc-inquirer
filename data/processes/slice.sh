@@ -1,3 +1,5 @@
+
+http://a841-dotweb01.nyc.gov/datafeeds/ParkingReg/Parking_Regulation_Shapefile.zip
 # Step 1: convert to ndjson and filter out all non street sweeping signs
 # ----Initial reduction includes boro, objectid, order no, MUTCD code, sign text and location (375,408 lines | 84.72mb)
 shp2json -n ./Parking_Regulation_Shapefile/Parking_Regulation_Shapefile.shp | ndjson-map '{"type": "Feature", "properties": {"B": d.properties.SG_KEY_BOR, "ID": d.properties.OBJECTID, "O": d.properties.SG_ORDER_N, "MUT": d.properties.SG_MUTCD_C, "T": d.properties.SIGNDESC1}, "geometry": {"type": "Point", "coordinates": d.geometry.coordinates}}'   > allSigns.ndjson

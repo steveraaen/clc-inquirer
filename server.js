@@ -64,13 +64,13 @@ db.once("open", function() {
 })
 app.get('/geoNear', function(req, res) {
     GeoSign.find({
-        "point": {
+        "Point": {
             $near: {
                 $geometry: {
                     type: "Point",
                     coordinates: [-73.9481, 40.6365]
                 },
-                $maxDistance: 500
+                $maxDistance: 50
             }
         }
     }), function(error, doc) {
