@@ -31,7 +31,21 @@ db.once("open", function() {
     app.get("/", function(req, res) {
         res.sendFile(__dirname + "/view/public/index.html");
     });
-    app.get("/ksigns", function(req, res) {
+// -------------- get 50 signs ------------------------
+    app.get("/muts", function(req, res) {
+        GeoSign.find({MUT: "PS-19BA"}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(50);
+    });
+// -------------- get 50 signs ------------------------
+    app.get("/ksigns/:day?", function(req, res) {
+        console.log(req.params.day)
+        
         GeoSign.find({}, function(error, doc) {
             if (error) {
                 console.log(error);
@@ -41,8 +55,9 @@ db.once("open", function() {
             }
         }).limit(50);
     });
-    app.get("/hoods/:name", function(req, res) {
-        Hood.find({name: "Erasmus"}, function(error, doc) {
+// ------------------ get 10 neighborhoods ----------------------
+    app.get("/hoods/", function(req, res) {
+        Hood.find({ name: "Erasmus" }, function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
@@ -51,6 +66,7 @@ db.once("open", function() {
             }
         }).limit(10);
     });
+// -------------- get all MUTCD codes----------------------------
     app.get("/codes", function(req, res) {
         Code.find({}, function(error, doc) {
             if (error) {
@@ -62,26 +78,44 @@ db.once("open", function() {
         }).limit(50);
     });
 })
-app.get('/geoNear', function(req, res) {
-    GeoSign.find({
-        "Point": {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.9481, 40.6365]
-                },
-                $maxDistance: 50
+// ----------------------------------------------------
+    app.get("/codes/:day", function(req, res) {
+        GeoSign.find(
+            { "T": /SAT/i }, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(50);
+    });
+
+
+// ---------------------------------------------------
+    app.get('/geoNear', function(req, res) {
+        GeoSign.find({
+            "Point": {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [-73.9481, 40.6365]
+                    },
+                    $maxDistance: 50
+                }
+            }
+        }),
+        function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
             }
         }
-    }), function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }
-})
+});
+// ---------------------------------------------------
+// ---------------------------------------------------
 app.listen(PORT, function(err) {
     if (err) throw err
     console.log('connected on  ' + PORT)

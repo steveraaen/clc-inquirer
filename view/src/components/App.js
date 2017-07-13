@@ -7,15 +7,25 @@ class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
+      
+      hood: {},
       data: {}
     }
   }
-  componentWillMount() {
-    helpers.getGeoData().then(function(response) {
+  componentDidMount() {
+    helpers.initHood().then(function(response) {
       console.log(response);
-      if (response !== this.state.data) {
-        console.log("data", response.data);
-        this.setState({ data: response.data });
+      if (response !== this.state.hood) {
+        console.log("hood", response.data);
+        this.setState({ hood: response.data });
+      }
+    }.bind(this))
+
+    helpers.initGeoData().then(function(res) {
+      console.log(res);
+      if (res !== this.state.data) {
+        console.log(res.data.length);
+        this.setState({ data: res.data });
       }
     }.bind(this));
 }
@@ -24,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
        
-        <LeafMap />
+        <LeafMap data={this.state.data} hood={this.state.hood}/>
       </div>
     );
   }

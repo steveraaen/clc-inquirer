@@ -1,21 +1,14 @@
 import axios from 'axios'
 
-
-/*function SignSlice() {
-
-}*/
-
-
 var helpers = {
 
-  getGeoData() {
-  	console.log('getData called')
-    return axios.get('/ksigns', function(){
+	initHood: function() {
+		return axios.get('/hoods')
+	},
 
-    })
+  initGeoData: function() {
+    return axios.get('/ksigns')
    }
-
-
-
 	}
+
 export default helpers;
