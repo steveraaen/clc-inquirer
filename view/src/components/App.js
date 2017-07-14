@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import LeafMap from './leafMap.js'
+import GeoJSON from './leafMap.js'
+
 import helpers from './utils/helpers.js'
 import './App.css';
 
+var newArr = []
 class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
-      
-      hood: {},
-      data: {}
+      data: null,
+      hood: null
     }
   }
+
   componentDidMount() {
+
     helpers.initHood().then(function(response) {
       console.log(response);
       if (response !== this.state.hood) {
@@ -21,23 +25,49 @@ class App extends Component {
       }
     }.bind(this))
 
+    function Geometry(coordinates) {
+
+      this.coordinates = coordinates;
+
+
+    }
+
     helpers.initGeoData().then(function(res) {
-      console.log(res);
       if (res !== this.state.data) {
-        console.log(res.data.length);
-        this.setState({ data: res.data });
+        for(let i=0; i < res.data.length; i++) {
+        var coordinates = res.data[i].geometry.coordinates;
+
+        var geometry = new Geometry(coordinates);
+         newArr.push(coordinates)
+        }
+        this.setState({ data: newArr });
       }
     }.bind(this));
-}
-	
+}	
   render() {
     return (
       <div className="App">
        
-        <LeafMap data={this.state.data} hood={this.state.hood}/>
+        <LeafMap  data={newArr} hood={this.state.hood} />
+        
       </div>
     );
   }
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
