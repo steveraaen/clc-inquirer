@@ -15,11 +15,8 @@ export default class LeafMap extends Component {
 }
 
 
-componentDidMount() {
 
-  }
-
-
+componentDidMount(){}
 
   render() {
 
@@ -32,7 +29,8 @@ componentDidMount() {
      }
    }
     const center = [this.state.lat, this.state.lng];
-  console.log(this.props)
+
+
     return (
 
       <Map center={center} zoom={this.state.zoom}>      

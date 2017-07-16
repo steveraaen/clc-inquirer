@@ -15,7 +15,7 @@ class App extends Component {
 		super(props);
     this.state = {
       coordinates: null,
-      children: null,
+      texts: null,
       data: null,
       hood: null,
       geoKey: null
@@ -32,7 +32,21 @@ class App extends Component {
       }
     }.bind(this))
 
-    function MakePos(coordinates) {
+helpers.initGeoData().then(function(res) {
+      if (res !== this.state.data) {
+        var posArr = res.data.map((coor) => { 
+          return coor.geometry.coordinates }
+          )}
+        var texts = res.data.map((text) => {
+          return text.properties.T
+        })
+        this.setState({coordinates: posArr,
+                       texts: texts
+                       })
+      }.bind(this))
+
+
+/*    function MakePos(coordinates) {
       this.coordinates = coordinates;
     }
     function MakeChild(children) {
@@ -63,10 +77,8 @@ class App extends Component {
          featureArr.push(feature);
          geoKeyArr.push(geoKey);
         }
-       
 
-
-        console.log(posArr)
+        console.log(posArr.length)
         this.setState({ json: posArr,
                         children: childArr,
                         data: featureArr,
@@ -74,10 +86,10 @@ class App extends Component {
                         position: posArr
                          });
       }
-    }.bind(this));
-}	
+    }.bind(this));*/
+}
   render() {
-    console.log(this.state.data)
+    
     return (
       <div className="App">
        
