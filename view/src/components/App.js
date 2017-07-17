@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import LeafMap from './leafMap.js'
-import Map from './leafMap.js'
-
+import Markers from './Markers.js'
+import Map from './Markers.js'
 
 import helpers from './utils/helpers.js'
 import './App.css';
@@ -45,7 +44,7 @@ helpers.initGeoData().then(function(res) {
           return 'k_' + idx
           })
         var geoArr = res.data.map((geo) => {
-          return geo.properties.T, geo.geometry
+          return geo
         })
 
         this.setState({coordinates: posArr,
