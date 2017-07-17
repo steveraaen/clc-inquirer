@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LeafMap from './leafMap.js'
-import GeoJSON from './leafMap.js'
+import Map from './leafMap.js'
+
 
 import helpers from './utils/helpers.js'
 import './App.css';
@@ -14,11 +15,10 @@ class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
-      coordinates: null,
+      position: null,
       texts: null,
       data: null,
       hood: null,
-      geoKey: null
     }
   }
 
@@ -33,68 +33,35 @@ class App extends Component {
     }.bind(this))
 
 helpers.initGeoData().then(function(res) {
+  console.log(res.data)
       if (res !== this.state.data) {
         var posArr = res.data.map((coor) => { 
           return coor.geometry.coordinates }
           )}
-        var texts = res.data.map((text) => {
+        var textArr = res.data.map((text) => {
           return text.properties.T
+          })
+        var keyArr = res.data.map((k, idx) => {
+          return 'k_' + idx
+          })
+        var geoArr = res.data.map((geo) => {
+          return geo.properties.T, geo.geometry
         })
+
         this.setState({coordinates: posArr,
-                       texts: texts
+                       texts: textArr,
+                       keys: keyArr,
+                       data: geoArr
                        })
       }.bind(this))
-
-
-/*    function MakePos(coordinates) {
-      this.coordinates = coordinates;
-    }
-    function MakeChild(children) {
-      this.children = children;
-    }
-   function MakeGeoKey(children) {
-      this.children = children;
-    }
-    function FeatureCollection(position, children, geoKey) {
-      this.position = position;
-      this.children = children;
-      this.json = position;
-      this.geoKey = geoKey;
-    }
-
-    helpers.initGeoData().then(function(res) {
-      if (res !== this.state.data) {
-        for(let i=0; i < res.data.length; i++) {
-        var position = res.data[i].geometry.coordinates;
-        var children = res.data[i].properties.T;
-        var geoKey = 'k_' + [i];
-        var pos = new MakePos(position);
-        var child = new MakeChild(children);
-        var feature = new FeatureCollection(position, children);
-        var geoKey = new MakeGeoKey(geoKey);
-         posArr.push(pos);
-         childArr.push(child);
-         featureArr.push(feature);
-         geoKeyArr.push(geoKey);
-        }
-
-        console.log(posArr.length)
-        this.setState({ json: posArr,
-                        children: childArr,
-                        data: featureArr,
-                        geoKey: geoKeyArr,
-                        position: posArr
-                         });
-      }
-    }.bind(this));*/
 }
   render() {
     
     return (
       <div className="App">
        
-        <LeafMap data={this.state.json} markers={this.state.data} children={this.state.children} position={this.state.position} hood={this.state.hood} geoKey={this.state.geoKey} />
-        
+        <Map data={this.state.data} text={this.state.texts} position={this.state.coordinates} hood={this.state.hood} keys={this.state.keys} />
+
       </div>
     );
   }
