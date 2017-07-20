@@ -15,11 +15,13 @@ class App extends Component {
 		super(props);
     this.state = {
       positions: null,
-      data: null
+      data: null,
+      bronx: null
     }
   }
 
   componentDidMount() {
+
 
     helpers.initHood().then(function(response) {
       console.log(response);
@@ -31,9 +33,7 @@ class App extends Component {
          hooda.map((h) => {
           return hooda[1] , hooda[0]
         })
-
         console.log(hooda)
-
         this.setState({ positions: hooda[0] });
       }
     }.bind(this))
@@ -66,7 +66,7 @@ helpers.initGeoData().then(function(res) {
     return (
       <div className="App">
        
-        <CMarkers keys={this.state.keys} data={this.state.data} text={this.state.text} />
+        <CMarkers keys={this.state.keys}  data={this.state.data} text={this.state.text} positions={this.state.positions}/>
 
       </div>
     );

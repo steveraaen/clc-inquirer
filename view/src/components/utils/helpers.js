@@ -7,7 +7,10 @@ var helpers = {
 	},
 
   initGeoData: function() {
-    return axios.get('/ksigns')
+    return axios.get('/allsigns')
+   },
+     getNear: function() {
+    return axios.get('/ksigns:/near')
    }
 	}
 

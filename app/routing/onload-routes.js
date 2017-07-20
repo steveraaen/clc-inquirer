@@ -1,37 +1,27 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var GeoJSON = require('mongoose-geojson-schema');
+var ksigns = require('../../models/GeoSigns.js')
+var Sign = require("../../models/Signs.js");
 
-var pwds = require("./app/passwds");
-var Sign = require("./models/Signs.js");
-
-var Code = require("./models/Codes.js");
-var Hood = require("./models/hoods.js");
-var xsigns = require("./models/Xsigns.js");
-var allsigns = require("./models/Allsigns.js");
-var flatbush = require("./flatbush.json");
+var Code = require("../../models/Codes.js");
+var Hood = require("../../models/hoods.js");
+var xsigns = require("../../models/Xsigns.js");
+var allsigns = require("../../models/Allsigns.js");
+var flatbush = require("../../flatbush.json");
 console.log(flatbush)
-var app = express();
-require("./app/routing/onload-routes")(app);
-var PORT = process.env.PORT || 3001;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json" }));
-app.use(express.static("./public"));
+module.exports = function(app) {
 
-mongoose.connect(pwds.monggeo);
-var db = mongoose.connection;
-
-db.on("error", function(error) {
-    console.log("Mongoose Error: ", error);
-});
-db.once("open", function() {
-    console.log("Mongoose connection successful.");
-
-
+// -------------- get 50 signs ------------------------
+    app.get("/ksigns/", function(req, res) {
+        
+        ksigns.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(500);
+    });
     app.get("/", function(req, res) {
         res.sendFile(__dirname + "/view/public/index.html");
     });
@@ -42,9 +32,9 @@ db.once("open", function() {
                 $near: {
                     $geometry: {
                         type: "Point",
-                        coordinates: [-73.891449,40.862163]
+                        coordinates: [-73.983907, 40.676645]
                     },
-                    $maxDistance: 20
+                    $maxDistance: 400
                 }
             }}, function(error, doc) {
             if (error) {
@@ -53,7 +43,7 @@ db.once("open", function() {
                 console.log(doc)
                 res.json(doc);
             }
-        }).limit(100);
+        }).limit(500);
     });
     // ---------------------------------------------------
     app.get("/allwithin", function(req, res) {
@@ -77,7 +67,7 @@ db.once("open", function() {
         }).limit(100);
     });
 // ---------------------------------------------------
-    app.get('/ksigns/:near', function(req, res) {
+    app.get('/knear', function(req, res) {
         ksigns.find({
             type: "Feature",
             geometry: {
@@ -153,7 +143,7 @@ db.once("open", function() {
             }
         }).limit(50);
     });
-})
+
 // ----------------------------------------------------
     app.get("/codes/:day", function(req, res) {
         GeoSign.find(
@@ -169,8 +159,4 @@ db.once("open", function() {
 
 
 
-// ---------------------------------------------------
-app.listen(PORT, function(err) {
-    if (err) throw err
-    console.log('connected on  ' + PORT)
-})
+}
