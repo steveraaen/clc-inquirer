@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Map, TileLayer, Marker, Popup, GeoJSON, PropTypes as MapPropTypes} from 'react-leaflet'
 
 
-  var map = Map
 
 console.log(map)
 
@@ -21,7 +20,7 @@ export default class LeafMap extends Component {
 componentDidMount(){}
 
   render() {
-
+var map = Map
 
     function getStyle(feature, layer) {
      return {

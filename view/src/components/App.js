@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Markers from './Markers.js'
-import Map from './Markers.js'
+import CMarkers from './CMarkers.js'
+import Map from './CMarkers.js'
 
 import helpers from './utils/helpers.js'
 import './App.css';
@@ -14,10 +14,8 @@ class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
-      position: null,
-      texts: null,
-      data: null,
-      hood: null,
+      positions: null,
+      data: null
     }
   }
 
@@ -26,8 +24,17 @@ class App extends Component {
     helpers.initHood().then(function(response) {
       console.log(response);
       if (response !== this.state.hood) {
-        console.log("hood", response.data);
-        this.setState({ hood: response.data });
+
+        var hooda = response.data[0].geometry.coordinates
+        console.log(Array.isArray(hooda[0]));
+
+         hooda.map((h) => {
+          return hooda[1] , hooda[0]
+        })
+
+        console.log(hooda)
+
+        this.setState({ positions: hooda[0] });
       }
     }.bind(this))
 
@@ -35,8 +42,9 @@ helpers.initGeoData().then(function(res) {
   console.log(res.data)
       if (res !== this.state.data) {
         var posArr = res.data.map((coor) => { 
-          return coor.geometry.coordinates }
-          )}
+          return coor.geometry.coordinates 
+        }
+          )
         var textArr = res.data.map((text) => {
           return text.properties.T
           })
@@ -45,13 +53,12 @@ helpers.initGeoData().then(function(res) {
           })
         var geoArr = res.data.map((geo) => {
           return geo
-        })
+        })}
 
-        this.setState({coordinates: posArr,
-                       texts: textArr,
-                       keys: keyArr,
-                       data: geoArr
-                       })
+        this.setState({ keys: keyArr,
+                        data: res.data,
+                        text: textArr
+        })
       }.bind(this))
 }
   render() {
@@ -59,7 +66,7 @@ helpers.initGeoData().then(function(res) {
     return (
       <div className="App">
        
-        <Map data={this.state.data} text={this.state.texts} position={this.state.coordinates} hood={this.state.hood} keys={this.state.keys} />
+        <CMarkers keys={this.state.keys} data={this.state.data} text={this.state.text} />
 
       </div>
     );

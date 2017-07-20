@@ -40,7 +40,7 @@ db.once("open", function() {
                 console.log(doc)
                 res.json(doc);
             }
-        }).limit(50);
+        }).limit(500);
     });
 // -------------- get 50 signs ------------------------
     app.get("/ksigns/:day?", function(req, res) {
@@ -53,7 +53,7 @@ db.once("open", function() {
                 console.log(doc)
                 res.json(doc);
             }
-        }).limit(50);
+        }).limit(500);
     });
 // ------------------ get 10 neighborhoods ----------------------
     app.get("/hoods/", function(req, res) {
