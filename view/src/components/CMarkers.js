@@ -6,15 +6,14 @@ export default class CMarkers extends Component {
   constructor(props) {
     super(props) ; 
       this.state = {
-      lat: 40.650002,
-      lng: -73.949997,
-      zoom: 15
+      lat: 40.613101,
+      lng: -73.97083,
+      zoom: 17
   }
-
   }
 
 pointToLayer(feature, latlng) {
-  return L.circleMarker(latlng, {radius:1});
+  return L.circleMarker(latlng, {radius:2});
 }
 
   render() {
@@ -28,7 +27,7 @@ pointToLayer(feature, latlng) {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://api.mapbox.com/styles/v1/sraaen/cj52ii4g62aqy2so4s6zbl9g9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3JhYWVuIiwiYSI6ImNqMmt2Y3k4djAwNGczM3IzaWU1a3E1eW8ifQ.dTGNBuW1jqOckGIAEDOUZw"
         />
-        <GeoJSON  key={this.props.keys} data={this.props.data}  pointToLayer={this.pointToLayer.bind(this)} />
+        <GeoJSON  key={this.props.keys} data={this.props.data}  children={this.props.text} pointToLayer={this.pointToLayer.bind(this)} />
 
         
       </Map>
