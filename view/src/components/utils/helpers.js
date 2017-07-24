@@ -9,9 +9,11 @@ var helpers = {
   initGeoData: function() {
     return axios.get('/allsigns')
    },
-     getNear: function() {
+  getNear: function() {
     return axios.get('/ksigns:/near')
    }
+   
+
 	}
 
 export default helpers;
