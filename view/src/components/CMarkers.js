@@ -15,7 +15,7 @@ export default class CMarkers extends Component {
 
 pointToLayer(feature, latlng) {
     var geojsonMarkerOptions = {
-    radius: 4,
+    radius: 3,
     fillColor: "white",
     color: "#000",
     weight: 1,
@@ -23,7 +23,7 @@ pointToLayer(feature, latlng) {
     fillOpacity: 0.8
 };
   var geojsonMarkerMonday = {
-    radius: 4,
+    radius: 3,
     fillColor: "#ff7800",
     color: "#000",
     weight: 1,
@@ -31,23 +31,79 @@ pointToLayer(feature, latlng) {
     fillOpacity: 0.8
 };
   var geojsonMarkerTuesday = {
-    radius: 4,
+    radius: 3,
     fillColor: "blue",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};  
+var geojsonMarkerWednesday = {
+    radius: 3,
+    fillColor: "pink",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+var geojsonMarkerThursday = {
+    radius: 3,
+    fillColor: "yellow",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+var geojsonMarkerFriday = {
+    radius: 3,
+    fillColor: "red",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+var geojsonMarkerSaturday = {
+    radius: 3,
+    fillColor: "white",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+var geojsonMarkerSunday = {
+    radius: 3,
+    fillColor: "black",
     color: "#000",
     weight: 1,
     opacity: 1,
     fillOpacity: 0.8
 };
 
-
 if(feature.properties.T.includes('MON')) {
   return L.circleMarker(latlng, geojsonMarkerMonday);
-} 
+}   
 else if (feature.properties.T.includes('TUE')){
   return L.circleMarker(latlng, geojsonMarkerTuesday);
-}else {
+}   
+else if (feature.properties.T.includes('WED')){
+  return L.circleMarker(latlng, geojsonMarkerWednesday);
+} 
+else if (feature.properties.T.includes('THU')){
+  return L.circleMarker(latlng, geojsonMarkerThursday);
+}
+else if (feature.properties.T.includes('FRI')){
+  return L.circleMarker(latlng, geojsonMarkerFriday);
+}  
+else if (feature.properties.T.includes('SAT')){
+  return L.circleMarker(latlng, geojsonMarkerSaturday);
+} 
+else if (feature.properties.T.includes('SUN')){
+  return L.circleMarker(latlng, geojsonMarkerSunday);
+} 
+else {
   return L.circleMarker(latlng, geojsonMarkerOptions);
 }
+
 
 }
 onEachFeature(feature, layer) {

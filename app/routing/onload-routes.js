@@ -4,11 +4,7 @@ var Code = require("../../models/Codes.js");
 var Hood = require("../../models/hoods.js");
 var xsigns = require("../../models/Xsigns.js");
 var allsigns = require("../../models/Allsigns.js");
-
-
-
 module.exports = function(app) {
-
 
 // -------------- get 50 signs ------------------------
 app.get("/ksigns/", function(req, res) {
@@ -20,7 +16,7 @@ app.get("/ksigns/", function(req, res) {
             console.log(doc)
             res.json(doc);
         }
-    }).limit(500);
+    }).limit(5000);
 });
 app.get("/", function(req, res) {
     res.sendFile(__dirname + "/view/public/index.html");
@@ -44,7 +40,7 @@ app.get("/allsigns", function(req, res) {
             console.log(doc)
             res.json(doc);
         }
-    }).limit(500);
+    }).limit(10000);
 });
 // ---------------------------------------------------
 app.get("/allwithin", function(req, res) {
@@ -136,8 +132,8 @@ app.get("/codes", function(req, res) {
 });
 
 // ----------------------------------------------------
-app.get("/codes/:day", function(req, res) {
-    GeoSign.find({ "T": /SAT/i }, function(error, doc) {
+app.get("/ksigns/:day", function(req, res) {
+    ksigns.find({ "properties.T": /MON/i }, function(error, doc) {
         if (error) {
             console.log(error);
         } else {
@@ -146,7 +142,4 @@ app.get("/codes/:day", function(req, res) {
         }
     }).limit(50);
 });
-
-
-
 }
