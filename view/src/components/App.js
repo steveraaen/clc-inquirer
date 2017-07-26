@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import CMarkers from './CMarkers.js'
 import Map from './CMarkers.js'
+import Form from './Form.js'
 
 import helpers from './utils/helpers.js'
-import './App.css';
+
 
 
 
@@ -75,7 +76,9 @@ class App extends Component {
     
     return (
       <div className="App">
-       <div className="header">hello</div>
+       <div className="header">
+        <Form />
+       </div>
         <CMarkers keys={this.state.keys} uloc={this.state.uloc} data={this.state.data} text={this.state.text} hoodName={this.state.hoodName} latlngs={this.state.latlngs}/>
 
       </div>

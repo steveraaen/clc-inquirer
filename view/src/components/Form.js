@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LeafMap from './leafMap.js';
+
 
 
 
@@ -12,8 +12,13 @@ export default class Form extends Component {
 
     return (
       <div className="header">
-        <button  />
-          <LeafMap />
+        <button> Monday  </button>
+        <button> Tuesday  </button>
+        <button> Wednesday  </button>
+        <button> Thursday  </button>
+        <button> Friday  </button>
+        <button> Saturday  </button>
+          
       </div>
     )
   }
