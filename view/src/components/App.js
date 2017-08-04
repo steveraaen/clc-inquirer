@@ -13,6 +13,7 @@ class App extends Component {
       data: null,
       latlngs: null,
       hoodName: null,
+      hoodNames: null,
       hoodList: null,
       uloc: null
     }
@@ -37,17 +38,18 @@ class App extends Component {
         var hoodCoorB = hoodCoorA.map((positions, idx) => {
           return positions
         })
-/*        var hoodCoorB = hoodCoorA.map((positions, idx) => {
-          return positions
-        })*/
-
         console.log(hoodCoorB)
         this.setState({ latlngs: hoodCoorB,
                         hoodList: response.data,
                         hoodName: hoodName });
       }
     }.bind(this))
+// ------------
+helpers.getHoodNames().then(function(res){
 
+          this.setState({hoodNames: res.data });
+}.bind(this))
+// -----------------------------------------------------
     helpers.initGeoData().then(function(res) {
       console.log(res.data)
         if (res !== this.state.data) {
@@ -74,7 +76,7 @@ class App extends Component {
     return (
       <div className="App">
        <div className="header">
-        <Form />
+        <Form hoodName={this.state.hoodNames}/>
        </div>
         <CMarkers keys={this.state.keys} uloc={this.state.uloc} data={this.state.data} text={this.state.text} hoodName={this.state.hoodName} latlngs={this.state.latlngs}/>
 

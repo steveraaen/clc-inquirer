@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 var helpers = {
-
+  getHoodNames: function() {
+    return axios.get('/hoodnames')
+  },
 	initHood: function() {
 		return axios.get('/hoods')
 	},

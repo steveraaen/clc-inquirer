@@ -6,150 +6,143 @@ var xsigns = require("../../models/Xsigns.js");
 var allsigns = require("../../models/Allsigns.js");
 module.exports = function(app) {
 
-// -------------- get 50 signs ------------------------
-app.get("/ksigns/", function(req, res) {
+    // -------------- get 50 signs ------------------------
+    app.get("/ksigns/", function(req, res) {
 
-    ksigns.find({}, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(5000);
-});
-app.get("/", function(req, res) {
-    res.sendFile(__dirname + "/view/public/index.html");
-});
-// ---------------------------------------------------
-app.get("/allsigns", function(req, res) {
-    allsigns.find({
-        geometry: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.983907, 40.676645]
-                },
-                $maxDistance: 1000
+        ksigns.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
             }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(5000);
-});
-// ---------------------------------------------------
-app.get("/allwithin", function(req, res) {
-    allsigns.find({
-
-        geometry: {
-            $geoWithin: {
-                $geometry: {
-                    type: "Polygon",
-                    coordinates: [flatbush.geometry]
+        }).limit(5000);
+    });
+    app.get("/", function(req, res) {
+        res.sendFile(__dirname + "/view/public/index.html");
+    });
+    // ---------------------------------------------------
+    app.get("/allsigns", function(req, res) {
+        allsigns.find({
+            geometry: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [-73.983907, 40.676645]
+                    },
+                    $maxDistance: 1000
                 }
             }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(100);
-});
-
-// ------------------ get 10 neighborhoods ----------------------
-app.get("/hoods/", function(req, res) {
-    Hood.find({}, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
+        }, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(5000);
     });
-});
-// -------------- get all MUTCD codes----------------------------
-app.get("/codes", function(req, res) {
-    Code.find({}, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(50);
-});
+    // ---------------------------------------------------
+    app.get("/allwithin", function(req, res) {
+        allsigns.find({
 
-// ----------------------------------------------------
-/*app.get("/allsigns", function(req, res) {
-    allsigns.find({
-        geometry: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.983907, 40.676645]
-                },
-                $maxDistance: 5000
+            geometry: {
+                $geoWithin: {
+                    $geometry: {
+                        type: "Polygon",
+                        coordinates: [flatbush.geometry]
+                    }
+                }
             }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(5000);
-});*/
-// ----------------------------------------------------
-app.get("/mon", function(req, res) {
-    allsigns.find({
-        "properties.T": /MON/i,
-        geometry: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.983907, 40.676645]
-                },
-                $maxDistance: 1000
+        }, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
             }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(500);
-});
-// ----------------------------------------------------
-app.get("tue", function(req, res) {
-    allsigns.find({
-        "properties.T": /TUE/i,
-        geometry: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.983907, 40.676645]
-                },
-                $maxDistance: 1000
+        }).limit(100);
+    });
+
+    app.get("/hoodnames", function(req, res) {
+        Hood.distinct('name', function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
             }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(500);
-});
+        });
+    });
+
+
+
+
+
+    // ------------------ get neighborhoods ----------------------
+    app.get("/hoods/", function(req, res) {
+        Hood.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        });
+    });
+    // -------------- get all MUTCD codes----------------------------
+    app.get("/codes", function(req, res) {
+        Code.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(50);
+    });
+    // -------------- 
+    app.get("/mon", function(req, res) {
+        allsigns.find({
+            "properties.T": /MON/i,
+            geometry: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [-73.983907, 40.676645]
+                    },
+                    $maxDistance: 1000
+                }
+            }
+        }, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(500);
+    });
+    // ----------------------------------------------------
+    app.get("tue", function(req, res) {
+        allsigns.find({
+            "properties.T": /TUE/i,
+            geometry: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [-73.983907, 40.676645]
+                    },
+                    $maxDistance: 1000
+                }
+            }
+        }, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(doc)
+                res.json(doc);
+            }
+        }).limit(500);
+    });
 }
