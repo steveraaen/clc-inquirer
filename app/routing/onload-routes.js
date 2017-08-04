@@ -30,7 +30,7 @@ app.get("/allsigns", function(req, res) {
                     type: "Point",
                     coordinates: [-73.983907, 40.676645]
                 },
-                $maxDistance: 5000
+                $maxDistance: 1000
             }
         }
     }, function(error, doc) {
@@ -40,7 +40,7 @@ app.get("/allsigns", function(req, res) {
             console.log(doc)
             res.json(doc);
         }
-    }).limit(10000);
+    }).limit(5000);
 });
 // ---------------------------------------------------
 app.get("/allwithin", function(req, res) {
@@ -52,50 +52,6 @@ app.get("/allwithin", function(req, res) {
                     type: "Polygon",
                     coordinates: [flatbush.geometry]
                 }
-            }
-        }
-    }, function(error, doc) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(doc)
-            res.json(doc);
-        }
-    }).limit(100);
-});
-// ---------------------------------------------------
-app.get('/knear', function(req, res) {
-    ksigns.find({
-            type: "Feature",
-            geometry: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [-73.97083, 40.61310]
-                    },
-                    $maxDistance: 200
-                }
-            }
-        }).limit(50),
-        function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(doc)
-                res.json(doc);
-            }
-        }
-});
-// -------------- get 50 signs ------------------------
-app.get("/xsigns", function(req, res) {
-    xsigns.find({
-        geometry: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-73.891449, 40.862163]
-                },
-                $maxDistance: 200
             }
         }
     }, function(error, doc) {
@@ -132,14 +88,68 @@ app.get("/codes", function(req, res) {
 });
 
 // ----------------------------------------------------
-app.get("/ksigns/:day", function(req, res) {
-    ksigns.find({ "properties.T": /MON/i }, function(error, doc) {
+/*app.get("/allsigns", function(req, res) {
+    allsigns.find({
+        geometry: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [-73.983907, 40.676645]
+                },
+                $maxDistance: 5000
+            }
+        }
+    }, function(error, doc) {
         if (error) {
             console.log(error);
         } else {
             console.log(doc)
             res.json(doc);
         }
-    }).limit(50);
+    }).limit(5000);
+});*/
+// ----------------------------------------------------
+app.get("/mon", function(req, res) {
+    allsigns.find({
+        "properties.T": /MON/i,
+        geometry: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [-73.983907, 40.676645]
+                },
+                $maxDistance: 1000
+            }
+        }
+    }, function(error, doc) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(doc)
+            res.json(doc);
+        }
+    }).limit(500);
+});
+// ----------------------------------------------------
+app.get("tue", function(req, res) {
+    allsigns.find({
+        "properties.T": /TUE/i,
+        geometry: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [-73.983907, 40.676645]
+                },
+                $maxDistance: 1000
+            }
+        }
+    }, function(error, doc) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(doc)
+            res.json(doc);
+        }
+    }).limit(500);
 });
 }

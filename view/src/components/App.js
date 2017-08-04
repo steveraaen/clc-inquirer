@@ -5,9 +5,6 @@ import Form from './Form.js'
 
 import helpers from './utils/helpers.js'
 
-
-
-
 class App extends Component {
 	constructor(props) {
 		super(props);

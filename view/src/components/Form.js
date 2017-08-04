@@ -12,6 +12,7 @@ export default class Form extends Component {
 
     return (
       <div className="header">
+        <input></input>
         <button> Monday  </button>
         <button> Tuesday  </button>
         <button> Wednesday  </button>
