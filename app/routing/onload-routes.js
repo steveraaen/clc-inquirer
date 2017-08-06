@@ -30,14 +30,13 @@ module.exports = function(app) {
                         type: "Point",
                         coordinates: [-73.983907, 40.676645]
                     },
-                    $maxDistance: 1000
+                    $maxDistance: 750
                 }
             }
         }, function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
-                console.log(doc)
                 res.json(doc);
             }
         }).limit(5000);
@@ -69,19 +68,24 @@ module.exports = function(app) {
             if (error) {
                 console.log(error);
             } else {
+                res.json(doc);
+            }
+        });
+    });
+    // ------------------ get neighborhoods ----------------------
+    app.get("/hoods/", function(req, res) {
+        Hood.find({}, function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
                 console.log(doc)
                 res.json(doc);
             }
         });
     });
-
-
-
-
-
-    // ------------------ get neighborhoods ----------------------
-    app.get("/hoods/", function(req, res) {
-        Hood.find({}, function(error, doc) {
+        // ------------------ get one neighborhood ----------------------
+    app.get("/onehood", function(req, res) {
+        Hood.find({name: 'Bedford'}, function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
@@ -102,47 +106,5 @@ module.exports = function(app) {
         }).limit(50);
     });
     // -------------- 
-    app.get("/mon", function(req, res) {
-        allsigns.find({
-            "properties.T": /MON/i,
-            geometry: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [-73.983907, 40.676645]
-                    },
-                    $maxDistance: 1000
-                }
-            }
-        }, function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(doc)
-                res.json(doc);
-            }
-        }).limit(500);
-    });
-    // ----------------------------------------------------
-    app.get("tue", function(req, res) {
-        allsigns.find({
-            "properties.T": /TUE/i,
-            geometry: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [-73.983907, 40.676645]
-                    },
-                    $maxDistance: 1000
-                }
-            }
-        }, function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(doc)
-                res.json(doc);
-            }
-        }).limit(500);
-    });
+
 }

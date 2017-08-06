@@ -4,17 +4,14 @@ import Map from './CMarkers.js'
 import Form from './Form.js'
 
 import helpers from './utils/helpers.js'
+import dow from './utils/time.js'
 
 class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
-      positions: null,
       data: null,
-      latlngs: null,
-      hoodName: null,
       hoodNames: null,
-      hoodList: null,
       uloc: null
     }
   }
@@ -28,7 +25,7 @@ class App extends Component {
     this.setState({ uloc: userLoc})
         }.bind(this))
 
-    helpers.initHood().then(function(response) {
+/*    helpers.initHood().then(function(response) {
       console.log(response.data[107].name);
       if (response !== this.state.hood) {
         var hoodCoorA = response.data[107].geometry.coordinates[0];
@@ -43,7 +40,7 @@ class App extends Component {
                         hoodList: response.data,
                         hoodName: hoodName });
       }
-    }.bind(this))
+    }.bind(this))*/
 // ------------
 helpers.getHoodNames().then(function(res){
 

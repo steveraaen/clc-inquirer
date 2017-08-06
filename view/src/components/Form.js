@@ -14,11 +14,8 @@ export default class Form extends Component {
     if(this.props.hoodName) {
       var hn = this.props.hoodName
       var hoodList = hn.map((nHood) => 
-        <option key={nHood}>
-        {nHood}
-        </option>
-        )
-    }
+        <option key={nHood}>{nHood}</option>
+        )}
     return (
       <div className="header">
       

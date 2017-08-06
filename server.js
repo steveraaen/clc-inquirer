@@ -6,6 +6,9 @@ var GeoJSON = require('mongoose-geojson-schema');
 var pwds = require("./app/passwds");
 var app = express();
 require("./app/routing/onload-routes")(app);
+require("./app/routing/day-routes")(app);
+
+
 var PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
@@ -23,6 +26,7 @@ db.on("error", function(error) {
 db.once("open", function() {
     console.log("Mongoose connection successful.");
 // ---------------------------------------------------
+
 app.listen(PORT, function(err) {
     if (err) throw err
     console.log('connected on  ' + PORT)
