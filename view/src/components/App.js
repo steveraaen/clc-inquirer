@@ -4,8 +4,8 @@ import Map from './CMarkers.js'
 import Form from './Form.js'
 
 import helpers from './utils/helpers.js'
-import dow from './utils/time.js'
-
+import day from './utils/time.js'
+console.log(day);
 class App extends Component {
 	constructor(props) {
 		super(props);
